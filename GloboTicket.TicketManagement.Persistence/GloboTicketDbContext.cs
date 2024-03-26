@@ -1,5 +1,7 @@
 ﻿namespace GloboTicket.TicketManagement.Persistence
 {
+    using Application.Contracts;
+
     using Domain.Common;
     using Domain.Entities;
 
@@ -7,9 +9,18 @@
 
     public class GloboTicketDbContext : DbContext
     {
+        private readonly ILoggedInUserService _loggedInUserService;
+
         public GloboTicketDbContext(DbContextOptions<GloboTicketDbContext> options)
             : base(options)
         {
+        }
+
+        public GloboTicketDbContext(DbContextOptions<GloboTicketDbContext> options,
+            ILoggedInUserService loggedInUserService)
+            : base(options)
+        {
+            this._loggedInUserService = loggedInUserService;
         }
 
         public DbSet<Event> Events { get; set; }
@@ -193,9 +204,11 @@
                 {
                     case EntityState.Added:
                         entry.Entity.CreatedDate = DateTime.Now;
+                        entry.Entity.CreatedBy = this._loggedInUserService.UserId;
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastModifiedDate = DateTime.Now;
+                        entry.Entity.LastModifiedBy = this._loggedInUserService.UserId;
                         break;
                 }
             }

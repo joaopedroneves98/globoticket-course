@@ -1,10 +1,14 @@
 ﻿namespace GloboTicket.TicketManagement.Api
 {
-    using GloboTicket.TicketManagement.Application;
-    using GloboTicket.TicketManagement.Infrastructure;
-    using GloboTicket.TicketManagement.Persistence;
+    using Application.Contracts;
+
+    using Application;
+    using Infrastructure;
+    using Persistence;
 
     using Microsoft.EntityFrameworkCore;
+
+    using Services;
 
     public static class StartupExtensions
     {
@@ -14,6 +18,10 @@
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructureServices(builder.Configuration);
             builder.Services.AddPersistenceServices(builder.Configuration);
+
+            builder.Services.AddScoped<ILoggedInUserService, LoggedInUserService>();
+
+            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddControllers();
 

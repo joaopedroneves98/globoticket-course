@@ -3,6 +3,7 @@
     using Application.Contracts.Infrastructure;
     using Application.Models.Mail;
 
+    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
     using SendGrid;
@@ -10,11 +11,13 @@
 
     public class EmailService : IEmailService
     {
-        public EmailSettings _emailSettings { get; }
+        private EmailSettings _emailSettings { get; }
+        private ILogger<EmailService> _logger { get; }
 
-        public EmailService(IOptions<EmailSettings> mailSettings)
+        public EmailService(IOptions<EmailSettings> mailSettings, ILogger<EmailService> logger)
         {
             this._emailSettings = mailSettings.Value;
+            this._logger = logger;
         }
 
         public async Task<bool> SendEmail(Email email)
@@ -34,8 +37,12 @@
             var sendGridMessage = MailHelper.CreateSingleEmail(from, to, subject, emailBody, emailBody);
             var response = await client.SendEmailAsync(sendGridMessage);
 
-            if (response.StatusCode == System.Net.HttpStatusCode.Accepted || response.StatusCode == System.Net.HttpStatusCode.OK)
+            this._logger.LogInformation("Email sent");
+
+            if (response.StatusCode is System.Net.HttpStatusCode.Accepted or System.Net.HttpStatusCode.OK)
                 return true;
+
+            this._logger.LogError("Email sending failed");
 
             return false;
         }

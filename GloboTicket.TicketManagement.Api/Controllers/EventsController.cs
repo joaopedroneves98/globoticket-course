@@ -1,6 +1,6 @@
 ﻿namespace GloboTicket.TicketManagement.Api.Controllers
 {
-    using Api.Utility;
+    using Utility;
     using Application.Features.Events.Commands.CreateEvent;
     using Application.Features.Events.Commands.DeleteEvent;
     using Application.Features.Events.Commands.UpdateEvent;

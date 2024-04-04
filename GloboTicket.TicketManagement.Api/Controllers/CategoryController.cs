@@ -6,6 +6,7 @@
 
     using MediatR;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     [Route("api/[controller]")]
     [ApiController]
@@ -20,6 +21,7 @@
 
         [HttpGet("all", Name = "GetAllCategories")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize]
         public async Task<ActionResult<List<CategoryListVm>>> GetAllCategories()
         {
             var dtos = await this._mediator.Send(new GetCategoriesListQuery());
@@ -29,6 +31,7 @@
         [HttpGet("allwithevents", Name = "GetCategoriesWithEvents")]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize]
         public async Task<ActionResult<List<CategoryEventListVm>>> GetCategoriesWithEvents(bool includeHistory)
         {
             var getCategoriesListWithEventsQuery = new GetCategoriesListWithEventsQuery()
@@ -41,6 +44,7 @@
         }
 
         [HttpPost(Name = "AddCategory")]
+        [Authorize]
         public async Task<ActionResult<CreateCategoryCommandResponse>> Create([FromBody] CreateCategoryCommand createCategoryCommand)
         {
             var response = await this._mediator.Send(createCategoryCommand);

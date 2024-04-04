@@ -2,8 +2,8 @@
 {
     using AutoMapper;
 
-    using GloboTicket.TicketManagement.Application.Contracts.Persistence;
-    using GloboTicket.TicketManagement.Domain.Entities;
+    using Contracts.Persistence;
+    using Domain.Entities;
 
     using MediatR;
     public class GetEventDetailQueryHandler : IRequestHandler<GetEventDetailQuery, EventDetailVm>

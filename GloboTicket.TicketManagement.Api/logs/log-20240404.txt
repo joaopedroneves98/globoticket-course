@@ -1,0 +1,6 @@
+2024-04-04 16:15:16.249 +01:00 [INF] Now listening on: http://localhost:5292
+2024-04-04 16:15:16.298 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-04-04 16:15:16.299 +01:00 [INF] Hosting environment: Development
+2024-04-04 16:15:16.300 +01:00 [INF] Content root path: E:\Documentos\git\globoticket\GloboTicket.TicketManagement.Api
+2024-04-04 16:15:16.447 +01:00 [WRN] Failed to determine the https port for redirect.
+2024-04-04 16:16:33.771 +01:00 [INF] Application is shutting down...

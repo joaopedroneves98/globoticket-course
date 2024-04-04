@@ -19,7 +19,12 @@
 
     <ItemGroup>
       <Folder Include="Features\Orders\Commands\" />
-      <Folder Include="Features\Orders\Queries\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.Extensions.Logging.Abstractions">
+        <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\8.0.2\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

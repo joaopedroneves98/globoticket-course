@@ -1,12 +1,23 @@
 ﻿namespace GloboTicket.TicketManagement.Api
 {
+    using System.Security.Claims;
+
     using Application.Contracts;
 
     using Application;
+
+    using Identity;
+    using Identity.Models;
+
     using Infrastructure;
+
+    using Microsoft.AspNetCore.Identity;
+
     using Persistence;
 
     using Microsoft.EntityFrameworkCore;
+
+    using Middleware;
 
     using Services;
 
@@ -18,6 +29,7 @@
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructureServices(builder.Configuration);
             builder.Services.AddPersistenceServices(builder.Configuration);
+            builder.Services.AddIdentityServices(builder.Configuration);
 
             builder.Services.AddScoped<ILoggedInUserService, LoggedInUserService>();
 
@@ -37,6 +49,7 @@
                         .AllowAnyHeader()
                         .AllowCredentials()));
 
+            builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             return builder.Build();
@@ -44,6 +57,13 @@
 
         public static WebApplication ConfigurePipeline(this WebApplication app)
         {
+            app.MapIdentityApi<ApplicationUser>();
+
+            app.MapPost("/Logout", async (ClaimsPrincipal user, SignInManager<ApplicationUser> signInManager) =>
+            {
+                await signInManager.SignOutAsync();
+                return TypedResults.Ok();
+            });
 
             app.UseCors("open");
 
@@ -52,6 +72,8 @@
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCustomExceptionHandler();
 
             app.UseHttpsRedirection();
             app.MapControllers();

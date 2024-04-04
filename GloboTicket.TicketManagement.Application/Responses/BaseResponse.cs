@@ -4,18 +4,18 @@
     {
         public BaseResponse()
         {
-            Success = true;
+            this.Success = true;
         }
         public BaseResponse(string message)
         {
-            Success = true;
-            Message = message;
+            this.Success = true;
+            this.Message = message;
         }
 
         public BaseResponse(string message, bool success)
         {
-            Success = success;
-            Message = message;
+            this.Success = success;
+            this.Message = message;
         }
 
         public bool Success { get; set; }
